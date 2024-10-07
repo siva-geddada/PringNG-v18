@@ -1,34 +1,62 @@
-import { booleanAttribute, Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { PrimeNGConfig } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import Noir from './app-theme';
 import { AppConfiguratorComponent } from './configurator/app.configurator.component';
 import { AppConfigService } from './appconfigservice';
 import { CommonModule } from '@angular/common';
 import { StyleClassModule } from 'primeng/styleclass';
+import { AppTopBarComponent } from './layout/topbar/app.topbar.component';
+import { Subscription } from 'rxjs';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
-    templateUrl: './app.component.html',
-    selector: 'app-root',
-    standalone: true,
-    imports: [FormsModule, RouterModule, ButtonModule, InputTextModule, AppConfiguratorComponent, CommonModule, StyleClassModule ]
+  templateUrl: './app.component.html',
+  selector: 'app-root',
+  standalone: true,
+  imports: [
+    FormsModule,
+    RouterModule,
+    ButtonModule,
+    InputTextModule,
+    AppConfiguratorComponent,
+    CommonModule,
+    StyleClassModule,
+    AppTopBarComponent,
+  ],
 })
 export class AppComponent {
-    @Input({ transform: booleanAttribute }) showConfigurator = true;
+  subscription!: Subscription;
 
-    constructor(private primeng: PrimeNGConfig, private configService: AppConfigService){
-        this.primeng.theme.set(Noir);
+  constructor(
+    private configService: AppConfigService,
+    private metaService: Meta,
+    private titleService: Title
+  ) {}
 
-    }
-   
-    get isDarkMode() {
-        return this.configService.appState().darkTheme;
-    }
+  get landingClass() {
+    return {
+      'layout-dark': this.isDarkMode,
+      'layout-light': !this.isDarkMode,
+      'layout-news-active': this.isNewsActive,
+    };
+  }
 
-    toggleDarkMode() {
-        this.configService.appState.update((state) => ({ ...state, darkTheme: !state.darkTheme }));
-    }
+  get isDarkMode() {
+    return this.configService.appState().darkTheme;
+  }
+
+  get isNewsActive() {
+    return this.configService.state.newsActive;
+  }
+
+  ngOnInit() {
+    this.titleService.setTitle('PrimeNG - Angular UI Component Library');
+    this.metaService.updateTag({
+      name: 'description',
+      content:
+        'The ultimate collection of design-agnostic, flexible and accessible Angular UI Components.',
+    });
+  }
 }
