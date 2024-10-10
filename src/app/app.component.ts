@@ -1,15 +1,19 @@
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { AppConfiguratorComponent } from './configurator/app.configurator.component';
-import { AppConfigService } from './appconfigservice';
-import { CommonModule } from '@angular/common';
-import { StyleClassModule } from 'primeng/styleclass';
-import { AppTopBarComponent } from './layout/topbar/app.topbar.component';
 import { Subscription } from 'rxjs';
+import { Component } from '@angular/core';
+import Noir from './utils/themes/app-theme';
+import { PrimeNGConfig } from 'primeng/api';
+import { FormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { MessageModule } from 'primeng/message';
+import { InputTextModule } from 'primeng/inputtext';
+import { StyleClassModule } from 'primeng/styleclass';
 import { Meta, Title } from '@angular/platform-browser';
+import { AppConfigService } from './utils/services/appconfig.service';
+import { AppTopBarComponent } from './layout/topbar/app.topbar.component';
+import { AppNewsComponent } from './utils/components/news/app.news.component';
+import { AppConfiguratorComponent } from './utils/components/configurator/app.configurator.component';
 
 @Component({
   templateUrl: './app.component.html',
@@ -17,23 +21,28 @@ import { Meta, Title } from '@angular/platform-browser';
   standalone: true,
   imports: [
     FormsModule,
+    CommonModule,
     RouterModule,
     ButtonModule,
+    MessageModule,
     InputTextModule,
-    AppConfiguratorComponent,
-    CommonModule,
     StyleClassModule,
+    AppNewsComponent,
     AppTopBarComponent,
+    AppConfiguratorComponent,
   ],
 })
 export class AppComponent {
   subscription!: Subscription;
 
   constructor(
-    private configService: AppConfigService,
     private metaService: Meta,
-    private titleService: Title
-  ) {}
+    private titleService: Title,
+    private primeng: PrimeNGConfig,
+    private configService: AppConfigService
+  ) {
+    this.primeng.theme.set(Noir);
+  }
 
   get landingClass() {
     return {
@@ -58,5 +67,8 @@ export class AppComponent {
       content:
         'The ultimate collection of design-agnostic, flexible and accessible Angular UI Components.',
     });
+ 
   }
+
+  
 }

@@ -1,11 +1,11 @@
-import { CommonModule, DOCUMENT } from '@angular/common';
-import { Component, ElementRef, Inject, Input, OnDestroy, Renderer2, afterNextRender, booleanAttribute } from '@angular/core';
+import { DomHandler } from 'primeng/dom';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { DomHandler } from 'primeng/dom';
 import { StyleClassModule } from 'primeng/styleclass';
-import { AppConfigService } from '../../appconfigservice';
-import { AppConfiguratorComponent } from '../../configurator/app.configurator.component';
+import { CommonModule, DOCUMENT } from '@angular/common';
+import { AppConfigService } from '../../utils/services/appconfig.service';
+import { AppConfiguratorComponent } from '../../utils/components/configurator/app.configurator.component';
+import { Component, ElementRef, Inject, Input, OnDestroy, Renderer2, afterNextRender, booleanAttribute } from '@angular/core';
 
 @Component({
     selector: 'app-topbar',
@@ -32,7 +32,6 @@ export class AppTopBarComponent implements OnDestroy {
 
         afterNextRender(() => {
             this.bindScrollListener();
-            // this.initDocSearch();
         });
     }
 
@@ -57,15 +56,6 @@ export class AppTopBarComponent implements OnDestroy {
     toggleDarkMode() {
         this.configService.appState.update((state) => ({ ...state, darkTheme: !state.darkTheme }));
     }
-
-    // initDocSearch() {
-    //     docsearch({
-    //         appId: 'XG1L2MUWT9',
-    //         apiKey: '6057fe1af77fee4e7e41907b0b3ec79d',
-    //         indexName: 'primeng',
-    //         container: '#docsearch',
-    //     });
-    // }
 
     bindScrollListener() {
         if (!this.scrollListener) {

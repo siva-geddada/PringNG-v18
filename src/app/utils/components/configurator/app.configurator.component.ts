@@ -11,7 +11,7 @@ import { Aura } from 'primeng/themes/aura';
 import { Lara } from 'primeng/themes/lara';
 import { Nora } from 'primeng/themes/nora';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
-import { AppConfigService } from '../appconfigservice';
+import { AppConfigService } from '../../services/appconfig.service';
 
 const presets: any = {
   Aura,

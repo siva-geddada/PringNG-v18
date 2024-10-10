@@ -1,0 +1,28 @@
+<div
+  *ngIf="!isOnline"
+  class="layout-news"
+  [ngClass]="!isOnline ? 'offline' : ''"
+>
+  <div class="layout-news-container">
+    <div class="layout-news-content">
+      <span class="layout-news-text"> You are currently offline. </span>
+    </div>
+    <a tabindex="0" class="layout-news-close">
+      <span class="pi pi-times"></span>
+    </a>
+  </div>
+</div>
+<div
+  *ngIf="showOnlineMessage"
+  class="layout-news"
+  [ngClass]="showOnlineMessage ? 'online' : ''"
+>
+  <div class="layout-news-container">
+    <div class="layout-news-content">
+      <span class="layout-news-text"> You're back online! </span>
+    </div>
+    <a tabindex="0" class="layout-news-close">
+      <span class="pi pi-times"></span>
+    </a>
+  </div>
+</div>
